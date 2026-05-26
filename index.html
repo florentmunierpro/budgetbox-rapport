@@ -419,7 +419,7 @@ select.psel{appearance:none;background:var(--bg);border:1px solid var(--border);
       <div class="kc accent">
         <div class="kc-top"><span class="kc-lbl">Taux de closing</span><span class="kc-icon">🎯</span></div>
         <div class="kc-val" id="fkpi-closing">–</div>
-        <div class="kc-sub">Conv. trackées → Signés</div>
+        <div class="kc-sub">Leads reçus → Signés</div>
       </div>
       <div class="kc g">
         <div class="kc-top"><span class="kc-lbl">Clients signés</span><span class="kc-icon">🏆</span></div>
@@ -1160,15 +1160,13 @@ function saveAll(){
 
 /* ── FUNNEL ──────────────────────────────────────────────────────────────── */
 const FSTAGES = [
-  {id:'impressions', label:'Impressions',          sub:'Affichages Google Ads',          icon:'👁',  type:'ads'},
-  {id:'clics',       label:'Clics',                sub:'Visites sur le site web',         icon:'🖱',  type:'ads'},
-  {id:'conversions', label:'Conversions trackées', sub:'Leads via Google Ads',            icon:'🎯',  type:'ads'},
-  {id:'leads',       label:'Leads reçus',          sub:'Total demandes entrantes',        icon:'📥',  type:'manual'},
-  {id:'contacted',   label:'Leads contactés',      sub:'Rappelés ou ayant répondu',       icon:'📞',  type:'manual'},
-  {id:'qualified',   label:'Leads qualifiés',      sub:'Projet concret identifié',        icon:'✅',  type:'manual'},
-  {id:'visits',      label:'Visites / RDV',        sub:'Visite du site ou rendez-vous',   icon:'📍',  type:'manual'},
-  {id:'offers',      label:'Offres envoyées',      sub:'Devis transmis au prospect',      icon:'📄',  type:'manual'},
-  {id:'signed',      label:'Clients signés',        sub:'Contrats signés ce mois',         icon:'🏆',  type:'win'},
+  {id:'impressions', label:'Impressions',          sub:'Affichages Google Ads',                    icon:'👁',  type:'ads'},
+  {id:'clics',       label:'Clics',                sub:'Visites sur le site web',                  icon:'🖱',  type:'ads'},
+  {id:'conversions', label:'Leads reçus',          sub:'Formulaire rempli — conversion Google Ads',icon:'📥',  type:'ads'},
+  {id:'qualified',   label:'Leads qualifiés',      sub:'Répondent + projet concret identifié',     icon:'✅',  type:'manual'},
+  {id:'visits',      label:'Visites / RDV',        sub:'Visite du site ou rendez-vous',            icon:'📍',  type:'manual'},
+  {id:'offers',      label:'Offres envoyées',      sub:'Devis transmis au prospect',               icon:'📄',  type:'manual'},
+  {id:'signed',      label:'Clients signés',        sub:'Contrats signés ce mois',                  icon:'🏆',  type:'win'},
 ];
 
 function getFunnelData(){
@@ -1178,8 +1176,6 @@ function getFunnelData(){
     impressions: d.impressions || 0,
     clics:       d.clics       || 0,
     conversions: d.conversions || 0,
-    leads:       f.leads     || 0,
-    contacted:   f.contacted || 0,
     qualified:   f.qualified || 0,
     visits:      f.visits    || 0,
     offers:      f.offers    || 0,
