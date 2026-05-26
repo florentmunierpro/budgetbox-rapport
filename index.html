@@ -190,6 +190,42 @@ select.psel{appearance:none;background:var(--bg);border:1px solid var(--border);
 .neg-kw{font-size:11px;font-weight:600;color:var(--red)}
 .neg-cost{font-size:10px;color:var(--red);font-weight:600}
 
+/* TABS NAV */
+.tab-nav{display:flex;gap:2px;border-bottom:2px solid var(--border);margin-bottom:22px}
+.tnav-btn{padding:10px 20px;font-size:12px;font-weight:700;border:none;background:none;cursor:pointer;color:var(--ink3);border-bottom:3px solid transparent;margin-bottom:-2px;font-family:var(--font);transition:all .15s;border-radius:6px 6px 0 0;display:flex;align-items:center;gap:6px}
+.tnav-btn:hover{color:var(--ink);background:var(--bg)}
+.tnav-btn.active{color:var(--fox);border-bottom-color:var(--fox)}
+.tab-content.hidden{display:none!important}
+
+/* FUNNEL */
+.fstage{display:grid;grid-template-columns:26px 1fr 110px;align-items:center;gap:10px;padding:8px 0}
+.fbar-track{height:32px;background:var(--bg);border-radius:6px;overflow:hidden;margin-top:5px}
+.fbar-fill{height:100%;border-radius:6px;transition:width .5s ease}
+.fbar-fill.ads{background:linear-gradient(90deg,#2E75B6,#1A5492)}
+.fbar-fill.manual{background:linear-gradient(90deg,#E8501F,#C04018)}
+.fbar-fill.win{background:linear-gradient(90deg,#2D9E6B,#1E7050)}
+.fconn{display:flex;align-items:center;gap:8px;justify-content:flex-start;padding:1px 0 1px 36px}
+.conv-tag{font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;border:1px solid}
+.cv-g{background:var(--green-bg);color:var(--green);border-color:#b6dfc8}
+.cv-o{background:var(--orange-bg);color:var(--orange);border-color:#f0cc9a}
+.cv-r{background:var(--red-bg);color:var(--red);border-color:#f0b0b0}
+.cv-n{background:var(--bg);color:var(--ink3);border-color:var(--border)}
+.cv-leak{background:var(--red-bg)!important;color:var(--red)!important;border-color:var(--red)!important;font-weight:800!important}
+.fleak-row .fbar-fill{opacity:.75}
+.finput{border:1.5px dashed #D4C460;border-radius:var(--rs);background:#FFFBEA;font-size:17px;font-weight:800;color:var(--ink);font-family:var(--font);padding:3px 8px;width:100px;text-align:right;outline:none;-moz-appearance:textfield}
+.finput::-webkit-outer-spin-button,.finput::-webkit-inner-spin-button{-webkit-appearance:none}
+.finput:focus{border-color:var(--fox);border-style:solid;background:#fff}
+.fauto{font-size:17px;font-weight:800;color:var(--ink2);text-align:right}
+.ftag{display:inline-block;font-size:9px;font-weight:700;padding:1px 5px;border-radius:8px;text-transform:uppercase;letter-spacing:.5px;vertical-align:middle;margin-left:4px}
+.ftag-ads{background:#EBF3FB;color:#2E75B6}
+.ftag-man{background:var(--fox-l);color:var(--fox)}
+.ftag-win{background:var(--green-bg);color:var(--green)}
+.flbl{font-size:12px;font-weight:700;color:var(--ink)}
+.fsub{font-size:10px;color:var(--ink3)}
+.ficon{font-size:17px;text-align:center;line-height:1}
+@keyframes pulse2{0%{opacity:1}100%{opacity:.55}}
+.cv-leak{animation:pulse2 .9s ease-in-out infinite alternate}
+
 /* RESPONSIVE */
 @media(max-width:900px){.kpi-row{grid-template-columns:repeat(3,1fr)}.grid2,.grid3{grid-template-columns:1fr}.reco-grid{grid-template-columns:1fr}}
 @media(max-width:600px){.kpi-row{grid-template-columns:repeat(2,1fr)}.wrap{padding:12px 12px 40px}.hdr{padding:0 12px}.hour-grid{grid-template-columns:repeat(8,1fr)}}
@@ -273,6 +309,15 @@ select.psel{appearance:none;background:var(--bg);border:1px solid var(--border);
 
 <!-- MAIN -->
 <div class="wrap">
+
+  <!-- TABS NAV -->
+  <div class="tab-nav">
+    <button class="tnav-btn active" id="tnav-ads"    onclick="switchTab('ads')">📊 Google Ads</button>
+    <button class="tnav-btn"        id="tnav-funnel" onclick="switchTab('funnel')">🔽 Trame de vente</button>
+  </div>
+
+  <!-- ══ TAB : GOOGLE ADS ══════════════════════════════════════════════════ -->
+  <div id="tab-ads" class="tab-content">
 
   <!-- KPIs -->
   <div class="slbl">Indicateurs clés du mois</div>
@@ -362,6 +407,67 @@ select.psel{appearance:none;background:var(--bg);border:1px solid var(--border);
     <div class="reco-box"><label>🎯 Actions prioritaires M+1</label><textarea id="r-act" placeholder="Optimisations à lancer…" oninput="setReco('act',this.value)"></textarea></div>
     <div class="reco-box"><label>💡 Recommandation stratégique</label><textarea id="r-str" placeholder="Orientation globale, budget suggéré…" oninput="setReco('str',this.value)"></textarea></div>
   </div>
+
+  </div><!-- /tab-ads -->
+
+  <!-- ══ TAB : TRAME DE VENTE ══════════════════════════════════════════════ -->
+  <div id="tab-funnel" class="tab-content hidden">
+
+    <!-- SUMMARY KPIs -->
+    <div class="slbl">Vue commerciale du mois</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+      <div class="kc accent">
+        <div class="kc-top"><span class="kc-lbl">Taux de closing</span><span class="kc-icon">🎯</span></div>
+        <div class="kc-val" id="fkpi-closing">–</div>
+        <div class="kc-sub">Conv. trackées → Signés</div>
+      </div>
+      <div class="kc g">
+        <div class="kc-top"><span class="kc-lbl">Clients signés</span><span class="kc-icon">🏆</span></div>
+        <div class="kc-val" id="fkpi-signed">–</div>
+        <div class="kc-sub">contrats signés ce mois</div>
+      </div>
+      <div class="kc o">
+        <div class="kc-top"><span class="kc-lbl">Coût / client</span><span class="kc-icon">💰</span></div>
+        <div class="kc-val" id="fkpi-cost">–</div>
+        <div class="kc-sub">budget ADS ÷ signés</div>
+      </div>
+      <div class="kc">
+        <div class="kc-top"><span class="kc-lbl">Goulot principal</span><span class="kc-icon">⚠️</span></div>
+        <div class="kc-val" style="font-size:13px;line-height:1.3" id="fkpi-leak">–</div>
+        <div class="kc-sub">étape avec la plus grande perte</div>
+      </div>
+    </div>
+
+    <!-- FUNNEL VISUALIZATION -->
+    <div class="slbl">Entonnoir de conversion</div>
+    <div class="box">
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:28px;align-items:start">
+
+        <!-- Left: stages -->
+        <div id="funnelStages">
+          <div class="empty-state"><p>Chargement…</p></div>
+        </div>
+
+        <!-- Right: legend + rates table -->
+        <div>
+          <div style="font-size:11px;font-weight:800;color:var(--ink);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Légende</div>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+            <div style="display:flex;align-items:center;gap:8px"><div style="width:14px;height:10px;border-radius:3px;background:linear-gradient(90deg,#2E75B6,#1A5492)"></div><span style="font-size:11px;color:var(--ink2)">Données Google Ads (auto)</span></div>
+            <div style="display:flex;align-items:center;gap:8px"><div style="width:14px;height:10px;border-radius:3px;background:linear-gradient(90deg,#E8501F,#C04018)"></div><span style="font-size:11px;color:var(--ink2)">Données commerciales (manuel)</span></div>
+            <div style="display:flex;align-items:center;gap:8px"><div style="width:14px;height:10px;border-radius:3px;background:linear-gradient(90deg,#2D9E6B,#1E7050)"></div><span style="font-size:11px;color:var(--ink2)">Clients signés (objectif final)</span></div>
+          </div>
+          <div style="font-size:11px;font-weight:800;color:var(--ink);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Taux de conversion</div>
+          <div id="funnelRates" style="display:flex;flex-direction:column;gap:4px"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- NOTES -->
+    <div class="slbl">Notes commerciales par étape</div>
+    <div class="reco-grid" id="funnelNotes"></div>
+
+  </div><!-- /tab-funnel -->
 
 </div>
 <div class="toast" id="toast">✓ Sauvegardé</div>
@@ -788,6 +894,8 @@ function switchMonth(idx){
   document.getElementById('monthSel').value=idx;
   document.getElementById('dropMonthSel').value=idx;
   renderAll();
+  const fTab = document.getElementById('tab-funnel');
+  if(fTab && !fTab.classList.contains('hidden')) renderFunnel();
 }
 
 /* ── CSV PARSING ─────────────────────────────────────────────────────────── */
@@ -1048,6 +1156,183 @@ function saveAll(){
   const t=document.getElementById('toast');
   t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+/* ── FUNNEL ──────────────────────────────────────────────────────────────── */
+const FSTAGES = [
+  {id:'impressions', label:'Impressions',          sub:'Affichages Google Ads',          icon:'👁',  type:'ads'},
+  {id:'clics',       label:'Clics',                sub:'Visites sur le site web',         icon:'🖱',  type:'ads'},
+  {id:'conversions', label:'Conversions trackées', sub:'Leads via Google Ads',            icon:'🎯',  type:'ads'},
+  {id:'leads',       label:'Leads reçus',          sub:'Total demandes entrantes',        icon:'📥',  type:'manual'},
+  {id:'contacted',   label:'Leads contactés',      sub:'Rappelés ou ayant répondu',       icon:'📞',  type:'manual'},
+  {id:'qualified',   label:'Leads qualifiés',      sub:'Projet concret identifié',        icon:'✅',  type:'manual'},
+  {id:'visits',      label:'Visites / RDV',        sub:'Visite du site ou rendez-vous',   icon:'📍',  type:'manual'},
+  {id:'offers',      label:'Offres envoyées',      sub:'Devis transmis au prospect',      icon:'📄',  type:'manual'},
+  {id:'signed',      label:'Clients signés',        sub:'Contrats signés ce mois',         icon:'🏆',  type:'win'},
+];
+
+function getFunnelData(){
+  const d = D();
+  const f = (store[cur] && store[cur].funnel) ? store[cur].funnel : {};
+  return {
+    impressions: d.impressions || 0,
+    clics:       d.clics       || 0,
+    conversions: d.conversions || 0,
+    leads:       f.leads     || 0,
+    contacted:   f.contacted || 0,
+    qualified:   f.qualified || 0,
+    visits:      f.visits    || 0,
+    offers:      f.offers    || 0,
+    signed:      f.signed    || 0,
+    notes:       f.notes     || {},
+  };
+}
+
+function setFunnelVal(id, raw){
+  if(!store[cur]) store[cur] = {};
+  if(!store[cur].funnel) store[cur].funnel = {};
+  store[cur].funnel[id] = parseInt(raw) || 0;
+  renderFunnel();
+}
+
+function setFunnelNote(id, val){
+  if(!store[cur]) store[cur] = {};
+  if(!store[cur].funnel) store[cur].funnel = {};
+  if(!store[cur].funnel.notes) store[cur].funnel.notes = {};
+  store[cur].funnel.notes[id] = val;
+}
+
+function renderFunnel(){
+  const f    = getFunnelData();
+  const vals = FSTAGES.map(s => f[s.id] || 0);
+  const posV = vals.filter(v => v > 0);
+  const maxV = posV.length ? Math.max(...posV) : 1;
+
+  // Biggest drop (worst consecutive conversion rate)
+  let worstIdx = -1, worstRate = Infinity;
+  for(let i = 1; i < vals.length; i++){
+    if(vals[i-1] > 0){
+      const r = vals[i] / vals[i-1] * 100;
+      if(r < worstRate){ worstRate = r; worstIdx = i; }
+    }
+  }
+
+  // ── Summary KPIs
+  const budget       = (D().budget) || 0;
+  const signed       = vals[8];
+  const convTrk      = vals[2];
+  const closingRate  = (convTrk > 0 && signed > 0) ? (signed / convTrk * 100) : null;
+  const costPerCli   = signed > 0 ? Math.round(budget / signed) : null;
+
+  const setTxt = (id, v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+  setTxt('fkpi-closing', closingRate !== null ? closingRate.toFixed(1)+'%' : '–');
+  setTxt('fkpi-signed',  signed > 0 ? signed : '–');
+  setTxt('fkpi-cost',    costPerCli !== null ? costPerCli+' CHF' : '–');
+  setTxt('fkpi-leak',    worstIdx > 0 ? FSTAGES[worstIdx].label : '–');
+
+  // ── Funnel stages + connectors
+  let html = '';
+  for(let i = 0; i < FSTAGES.length; i++){
+    const s      = FSTAGES[i];
+    const v      = vals[i];
+    const isAds  = s.type === 'ads';
+    const isWin  = s.type === 'win';
+    const isLeak = (i === worstIdx && worstIdx > 0);
+
+    // Log scale so impressions (17k) and signed (2) both show meaningful bars
+    const barW = v > 0 ? Math.max(6, Math.min(100, Math.log(v+1)/Math.log(maxV+1)*100)).toFixed(1) : 0;
+    const fillCls = isAds ? 'ads' : isWin ? 'win' : 'manual';
+
+    const tagHtml = isAds
+      ? '<span class="ftag ftag-ads">ADS</span>'
+      : isWin
+        ? '<span class="ftag ftag-win">WIN</span>'
+        : '<span class="ftag ftag-man">MANUEL</span>';
+
+    const valHtml = isAds
+      ? `<span class="fauto">${v > 0 ? v.toLocaleString('fr-CH') : '–'}</span>`
+      : `<input class="finput" type="number" min="0" value="${v||''}" placeholder="0"
+           onchange="setFunnelVal('${s.id}',this.value)"
+           oninput="setFunnelVal('${s.id}',this.value)">`;
+
+    html += `<div class="fstage${isLeak?' fleak-row':''}">
+      <div class="ficon">${s.icon}</div>
+      <div>
+        <div class="flbl">${s.label}${tagHtml}</div>
+        <div class="fsub">${s.sub}</div>
+        <div class="fbar-track"><div class="fbar-fill ${fillCls}" style="width:${barW}%"></div></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:flex-end">${valHtml}</div>
+    </div>`;
+
+    if(i < FSTAGES.length - 1){
+      const rate    = vals[i] > 0 ? (vals[i+1] / vals[i] * 100) : null;
+      const tagCls  = isLeak ? 'cv-leak' : (rate===null?'cv-n':rate>=60?'cv-g':rate>=25?'cv-o':'cv-r');
+      const rateTxt = rate !== null ? rate.toFixed(1)+'%' : '–';
+      html += `<div class="fconn">
+        <div style="width:1px;height:12px;background:var(--border);margin-left:12px;flex-shrink:0"></div>
+        <span class="conv-tag ${tagCls}">${rateTxt}</span>
+        <span style="font-size:10px;color:var(--ink3)">→ ${FSTAGES[i+1].label}</span>
+      </div>`;
+    }
+  }
+
+  // Interpretation banner
+  const hasManual = vals.slice(3).some(v => v > 0);
+  let interpret = 'Renseignez les chiffres commerciaux (zones jaunes) pour voir l\'analyse.';
+  if(hasManual && worstIdx > 0){
+    const fromS = FSTAGES[worstIdx-1].label;
+    const toS   = FSTAGES[worstIdx].label;
+    interpret   = `🔴 <strong>Goulot identifié :</strong> ${fromS} → ${toS} (${worstRate.toFixed(1)}% de conversion).`;
+    if(worstRate < 25)  interpret += ' Taux très faible — analysez les objections à cette étape.';
+    else if(worstRate < 50) interpret += ' Taux perfectible — process ou messaging à améliorer.';
+  } else if(hasManual && signed > 0){
+    interpret = `✅ <strong>Closing ${closingRate!==null?closingRate.toFixed(1)+'%':'–'}</strong> sur les conversions trackées.${costPerCli!==null?' Coût réel par client signé : '+costPerCli+' CHF.':''}`;
+  }
+  html += `<div style="margin-top:14px;padding:12px 14px;background:var(--fox-l);border-radius:var(--rs);border:1px solid #F2C1B5;font-size:11px;color:var(--ink2);line-height:1.65">${interpret}</div>`;
+
+  const stEl = document.getElementById('funnelStages');
+  if(stEl) stEl.innerHTML = html;
+
+  // ── Right panel: conversion rates table
+  const ratesEl = document.getElementById('funnelRates');
+  if(ratesEl){
+    let rHtml = '';
+    for(let i = 1; i < FSTAGES.length; i++){
+      const rate   = vals[i-1] > 0 ? (vals[i] / vals[i-1] * 100) : null;
+      const cls    = (i===worstIdx)?'cv-leak':(rate===null?'cv-n':rate>=60?'cv-g':rate>=25?'cv-o':'cv-r');
+      const rateTxt= rate !== null ? rate.toFixed(1)+'%' : '–';
+      rHtml += `<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;border-radius:var(--rs);background:${i===worstIdx?'var(--red-bg)':'var(--bg)'}">
+        <span style="font-size:10px;color:var(--ink2)">${FSTAGES[i-1].icon} → ${FSTAGES[i].icon}</span>
+        <span class="conv-tag ${cls}" style="font-size:10px">${rateTxt}</span>
+      </div>`;
+    }
+    ratesEl.innerHTML = rHtml || '<span style="font-size:11px;color:var(--ink3)">Saisir des données</span>';
+  }
+
+  // ── Notes section
+  const notesEl = document.getElementById('funnelNotes');
+  if(notesEl){
+    let nHtml = '';
+    FSTAGES.filter(s => s.type !== 'ads').forEach(s => {
+      const note = (f.notes && f.notes[s.id]) || '';
+      nHtml += `<div class="reco-box">
+        <label>${s.icon} ${s.label}</label>
+        <textarea placeholder="Observations, objections, blocages, actions à mener…"
+          oninput="setFunnelNote('${s.id}',this.value)">${note}</textarea>
+      </div>`;
+    });
+    notesEl.innerHTML = nHtml;
+  }
+}
+
+/* ── TAB SWITCH ──────────────────────────────────────────────────────────── */
+function switchTab(tab){
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+  document.querySelectorAll('.tnav-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.remove('hidden');
+  document.getElementById('tnav-'+tab).classList.add('active');
+  if(tab === 'funnel') renderFunnel();
 }
 
 /* ── INIT ────────────────────────────────────────────────────────────────── */
